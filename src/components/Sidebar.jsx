@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 
 export default function sidebar() {
   const {categorias} = useQuiosco();
-  const {logout} = useAuth({middleware:'auth'})
+  const {logout,user} = useAuth({middleware:'auth'})
   return (
     <aside className="md:w-72">
     <div className="p-4">
@@ -13,6 +13,7 @@ export default function sidebar() {
     src="img/logo.svg"
     alt="Imagen Logo"/>
     </div>
+    <p className="my-10 text-xl text-center">Hola: {user?.name}</p>
     <div className="mt-10">
 {categorias.map(categoria => (
     <Categoria
