@@ -1,30 +1,24 @@
 import { Link } from "react-router-dom";
 import { createRef, useState } from "react";
-import clienteAxios from "../config/axios";
+import { useAuth } from "../hooks/useAuth";
 import Alerta from "../components/Alerta";
 export default function Login() {
   
   
   const emailRef = createRef();
   const passwordRef = createRef();
-  
+  const {login} = useAuth({
+    middleware:'guest',
+    url:'/'
+  })
   const [errores,setErrores]=useState([])
   const handleSubmit = async e=>{
     e.preventDefault();
     const datos = {
-  
       email: emailRef.current.value,
       password: passwordRef.current.value,
-      
     }
-    try {
-      const {data} = await clienteAxios.post('/api/login',datos)
-      localStorage.setItem('AUTH_TOKEN',data.token);
-      setErrores([]);
-    } catch (error) {
-      
-      setErrores(Object.values(error.response.data.errors));
-    }
+    login(datos,setErrores)
   }
 
   return (
